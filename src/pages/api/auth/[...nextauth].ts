@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 // Prisma adapter for NextAuth, optional and can be removed
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "../../../server/db/client";
+import { TRPCError } from "@trpc/server";
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -12,6 +13,7 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: "/signin",
+    newUser: "/signup",
   },
   // Include user.id on session
   callbacks: {
@@ -40,7 +42,7 @@ export const authOptions: NextAuthOptions = {
       // e.g. domain, username, password, 2FA token, etc.
       // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        email: { label: "Email", type: "email", placeholder: "jsmith@test.fr" },
+        email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
@@ -50,15 +52,21 @@ export const authOptions: NextAuthOptions = {
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
-        console.log(user, credentials);
-        if (user && bcrypt.compareSync(credentials.password, user.password)) {
+        if (!user)
+          throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: "User not found",
+          });
+
+        if (bcrypt.compareSync(credentials.password, user.password)) {
           // Any object returned will be saved in `user` property of the JWT
           return user;
         }
 
-        // If you return null then an error will be displayed advising the user to check their details.
-        return null;
-        // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "Password incorrect",
+        });
       },
     }),
   ],

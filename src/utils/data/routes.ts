@@ -2,6 +2,15 @@ const routesMap = {
   index: {
     pathname: "/",
   },
+  signin: {
+    pathname: "/signin",
+  },
+  signup: {
+    pathname: "/signup",
+  },
+  dashboard: {
+    pathname: "/dashboard",
+  },
   "recipes.index": {
     pathname: "/dashboard/recipes",
   },
@@ -32,6 +41,5 @@ export default function routes(route: Routes, routeOptions?: RouteOptions) {
       });
     }
   }
-  console.log(pathname);
   return pathname;
 }

@@ -1,41 +1,40 @@
-import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { ReactElement, useState } from "react";
 import routes from "../utils/data/routes";
+import { trpc } from "../utils/trpc";
 
-export default function SigninPage(): ReactElement {
-  const router = useRouter();
-
+export default function SignupPage(): ReactElement {
   const [email, setEmail] = useState<string | undefined>();
   const [password, setPassword] = useState<string | undefined>();
 
   const [error, setError] = useState<string | undefined>();
 
+  const register = trpc.useMutation("auth.register", {
+    onError(error, variables, context) {
+      setError(error.message);
+    },
+    onMutate() {
+      console.log("success");
+    },
+  });
   const submit = async () => {
-    setError(undefined);
-    const result = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
-    if (result?.error) setError(result?.error);
-    router.push(routes("index"));
+    if (!email || !password) return;
+    await register.mutate({ email, password });
   };
 
   return (
-    <div className="flex h-screen items-center justify-center">
-      <div className="flex w-full max-w-xs flex-col items-center gap-8">
-        <i className="emoji-waving-hand block h-24 w-24" />
-        <h1 className="text-4xl font-medium">Sign in</h1>
+    <div className="flex justify-center items-center h-screen">
+      <div className="flex flex-col items-center gap-8 w-full max-w-xs">
+        <i className="emoji-hugging-face block w-24 h-24" />
+        <h1 className="text-4xl font-medium">Sign up</h1>
         <form
           onSubmit={(e) => {
             e.preventDefault();
             submit();
           }}
-          className="flex w-full flex-col gap-4"
+          className="flex flex-col w-full  gap-4"
         >
-          <div className="flex w-full flex-col">
+          <div className="flex flex-col w-full">
             <div className="form-control w-full">
               <label htmlFor="email" className="label">
                 <span className="label-text">Email</span>
@@ -66,7 +65,7 @@ export default function SigninPage(): ReactElement {
               <div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 flex-shrink-0 stroke-current"
+                  className="stroke-current flex-shrink-0 h-6 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
                 >
@@ -82,13 +81,13 @@ export default function SigninPage(): ReactElement {
             </div>
           )}
           <button type="submit" className="btn btn-primary">
-            Sign in
+            Sign Up
           </button>
         </form>
         <div className="flex gap-2">
-          <p>Don&apos;t have an account ?</p>
-          <Link href={routes("signup")}>
-            <a className="font-medium text-primary">Sign up for free</a>
+          <p>Already have an account ?</p>
+          <Link href={routes("signin")}>
+            <a className="text-primary font-medium">Sign in</a>
           </Link>
         </div>
       </div>

@@ -5,15 +5,28 @@ import type { AppType } from "next/dist/shared/lib/utils";
 import superjson from "superjson";
 import { SessionProvider } from "next-auth/react";
 import "../styles/globals.css";
+import Head from "next/head";
+import { DashboardLayout } from "../components/layout/DashboardLayout";
 
 const MyApp: AppType = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <SessionProvider session={session}>
-      <Component {...pageProps} />
-    </SessionProvider>
+    <>
+      <Head>
+        <title>Yummily</title>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/alohe/emojicloud/emojicloud.css"
+        />
+      </Head>
+      <SessionProvider session={session}>
+        <DashboardLayout>
+          <Component {...pageProps} />
+        </DashboardLayout>
+      </SessionProvider>
+    </>
   );
 };
 

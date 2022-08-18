@@ -52,7 +52,7 @@ const Home: NextPage = () => {
         </form>
       )}
 
-      <Link href={routes("recipes.index")}>Recipes</Link>
+      <Link href={routes("dashboard")}>Dashbaord</Link>
     </main>
   );
 };
