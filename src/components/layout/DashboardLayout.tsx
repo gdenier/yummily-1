@@ -1,7 +1,6 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactElement, ReactNode } from "react";
-import routes from "../../utils/data/routes";
+import { Sidebar } from "./DashboardLayout/Sidebar";
 
 const publicRoutes = ["/", "/signin", "/signup"];
 
@@ -16,15 +15,8 @@ export const DashboardLayout = ({
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <aside className="w-40 bg-primary">
-        <Link href={routes("dashboard")}>
-          <a className="btn">Dashboard</a>
-        </Link>
-        <Link href={routes("recipes.index")}>
-          <a className="btn">Recipes</a>
-        </Link>
-      </aside>
-      <main>{children}</main>
+      <Sidebar />
+      <main className="px-4 py-2">{children}</main>
     </div>
   );
 };
