@@ -1,59 +1,34 @@
 import type { NextPage } from "next";
-import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useState } from "react";
+import { Navbar } from "../components/LandingPage/Navbar";
 import routes from "../utils/data/routes";
-import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
-  const { data: session, status } = useSession();
-
-  const submit = async () => {
-    const result = await signIn("credentials", {
-      redirect: false,
-      email: "test@test.fr",
-      password: "password",
-    });
-    console.log(result);
-  };
-
-  const register = trpc.useMutation(["auth.register"]);
-  const addUser = () => {
-    register.mutate({ email: "test@test.fr", password: "password" });
-  };
-
-  if (status === "loading") {
-    return <main className="flex flex-col items-center pt-4">Loading...</main>;
-  }
-
   return (
-    <main className="flex flex-col items-center gap-6">
-      <h1 className="text-4xl pt-4">Yummily</h1>
+    <section className="bg-white dark:bg-gray-800">
+      <Navbar />
 
-      {session ? (
-        <div>
-          <p>hi {session.user?.name}</p>
-
-          <button onClick={() => signOut()}>Logout</button>
+      <div className="container px-6 py-16 mx-auto text-center">
+        <div className="max-w-lg mx-auto">
+          <h1 className="text-3xl font-bold text-gray-800 dark:text-white md:text-4xl">
+            Construisez votre livre de recette personnel
+          </h1>
+          <p className="mt-6 text-gray-500 dark:text-gray-300">
+            Creer et partager toutes vos recettes le plus simplement possible.
+          </p>
+          <Link href={routes("signup")}>
+            <a className="btn btn-primary mt-6">C&apos;est partis</a>
+          </Link>
+          <p className="mt-2 text-sm text-gray-400 ">
+            C&apos;est totalement gratuit
+          </p>
         </div>
-      ) : (
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            submit();
-          }}
-          className="flex flex-col gap-1"
-        >
-          login
-          <input type="email" name="email" className="text-neutral-900" />
-          password
-          <input type="password" name="password" className="text-neutral-900" />
-          <button type="submit">Login</button>
-        </form>
-      )}
 
-      <Link href={routes("dashboard")}>Dashbaord</Link>
-    </main>
+        {/* <div className="flex justify-center mt-10">
+          <div className="w-full h-64 bg-blue-600 rounded-xl md:w-4/5"></div>
+        </div> */}
+      </div>
+    </section>
   );
 };
 
