@@ -1,25 +1,32 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { ReactElement, useState } from "react";
 import routes from "../utils/data/routes";
 import { trpc } from "../utils/trpc";
 
 export default function SignupPage(): ReactElement {
+  const router = useRouter();
+
   const [email, setEmail] = useState<string | undefined>();
   const [password, setPassword] = useState<string | undefined>();
 
   const [error, setError] = useState<string | undefined>();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const register = trpc.useMutation("auth.register", {
     onError(error, variables, context) {
       setError(error.message);
     },
-    onMutate() {
-      console.log("success");
+    onSuccess() {
+      router.push(routes("signin"));
     },
   });
   const submit = async () => {
     if (!email || !password) return;
+    setIsLoading(true);
     await register.mutate({ email, password });
+    setIsLoading(false);
   };
 
   return (
@@ -80,7 +87,10 @@ export default function SignupPage(): ReactElement {
               </div>
             </div>
           )}
-          <button type="submit" className="btn btn-primary">
+          <button
+            type="submit"
+            className={"btn btn-primary " + (isLoading ? "loading" : "")}
+          >
             Sign Up
           </button>
         </form>

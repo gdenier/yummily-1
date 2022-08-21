@@ -12,15 +12,22 @@ export default function SigninPage(): ReactElement {
 
   const [error, setError] = useState<string | undefined>();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const submit = async () => {
     setError(undefined);
+    setIsLoading(true);
     const result = await signIn("credentials", {
       redirect: false,
       email,
       password,
     });
-    if (result?.error) setError(result?.error);
-    router.push(routes("index"));
+    if (result?.error) {
+      setError(result?.error);
+      setIsLoading(false);
+      return;
+    }
+    router.push(routes("dashboard"));
   };
 
   return (
@@ -81,7 +88,10 @@ export default function SigninPage(): ReactElement {
               </div>
             </div>
           )}
-          <button type="submit" className="btn btn-primary">
+          <button
+            type="submit"
+            className={"btn btn-primary " + (isLoading ? "loading" : "")}
+          >
             Sign in
           </button>
         </form>
