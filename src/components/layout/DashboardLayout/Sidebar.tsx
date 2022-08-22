@@ -16,7 +16,7 @@ export const Sidebar = (): ReactElement => {
       </span>
       <Searchbar />
       <div className="flex flex-col justify-between flex-1 mt-6">
-        <nav>
+        <nav className="flex flex-col gap-3">
           <ActiveLink href={routes("dashboard")}>
             <a className="btn btn-ghost w-full justify-start normal-case hover:bg-gray-200">
               Dashboard
@@ -33,7 +33,7 @@ export const Sidebar = (): ReactElement => {
 
           <hr className="my-6 border-gray-200 dark:border-gray-600" />
 
-          <ActiveLink href={routes("index")} as={routes("index")}>
+          <ActiveLink href={routes("index")}>
             <a className="btn btn-ghost w-full justify-start normal-case hover:bg-gray-200">
               Options
             </a>

@@ -16,6 +16,6 @@ export default defineNextConfig({
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ["ui-avatars.com"],
+    domains: ["ui-avatars.com", "images.unsplash.com"],
   },
 });

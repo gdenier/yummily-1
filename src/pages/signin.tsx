@@ -1,10 +1,11 @@
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactElement, useState } from "react";
 import routes from "../utils/data/routes";
 
-export default function SigninPage(): ReactElement {
+export default function SigninPage(): ReactElement | null {
+  const { status } = useSession();
   const router = useRouter();
 
   const [email, setEmail] = useState<string | undefined>();
@@ -29,6 +30,11 @@ export default function SigninPage(): ReactElement {
     }
     router.push(routes("dashboard"));
   };
+
+  if (status === "authenticated") {
+    router.push(routes("dashboard"));
+    return null;
+  }
 
   return (
     <div className="flex h-screen items-center justify-center">

@@ -11,6 +11,7 @@ export const recipeRouter = createProtectedRouter()
           title: true,
           description: true,
           createdAt: true,
+          cover: true,
         },
         where: { userId: ctx.session.user.id },
         orderBy: { createdAt: "desc" },

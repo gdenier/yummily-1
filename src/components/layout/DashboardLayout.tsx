@@ -14,9 +14,11 @@ export const DashboardLayout = ({
   if (publicRoutes.includes(pathname)) return <>{children}</>;
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen w-screen overflow-x-hidden">
       <Sidebar />
-      <main className="px-4 py-2">{children}</main>
+      <main className="px-4 py-2 w-full h-full overflow-y-auto bg-gray-100 dark:bg-neutral">
+        {children}
+      </main>
     </div>
   );
 };

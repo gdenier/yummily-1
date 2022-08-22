@@ -5,7 +5,7 @@ import routes from "../utils/data/routes";
 
 const Home: NextPage = () => {
   return (
-    <section className="bg-white dark:bg-gray-800">
+    <section>
       <Navbar />
 
       <div className="container px-6 py-16 mx-auto text-center">
