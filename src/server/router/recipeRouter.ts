@@ -1,5 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import { createRecipeValidationSchema } from "../../components/Recipes/CreateRecipePage/RecipeForm";
 import { createProtectedRouter } from "./protected-router";
 
 export const recipeRouter = createProtectedRouter()
@@ -35,12 +36,15 @@ export const recipeRouter = createProtectedRouter()
     },
   })
   .mutation("create", {
-    input: z.object({ title: z.string(), description: z.string() }),
-    async resolve({ ctx, input: { title, description } }) {
-      return await ctx.prisma.recipe
-        .create({
-          data: { title, description, userId: ctx.session.user.id },
-        })
-        .catch((e) => console.error(e));
+    input: createRecipeValidationSchema,
+    async resolve({ ctx, input }) {
+      console.log("received");
+      try {
+        await ctx.prisma.recipe.create({
+          data: input,
+        });
+      } catch (e) {
+        console.error(e);
+      }
     },
   });

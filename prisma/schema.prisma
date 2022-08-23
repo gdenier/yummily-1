@@ -65,13 +65,17 @@ model Recipe {
     id String @id @default(cuid())
 
     title       String
-    description String
+    description String?
     cover       String?
+    backing     Int?
+    preparation Int?
+    nbPerson    Int?
 
     userId String?
 
-    steps Step[]
-    User  User?  @relation(fields: [userId], references: [id])
+    steps       Step[]
+    ingredients Ingredient[]
+    User        User?        @relation(fields: [userId], references: [id])
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -82,6 +86,17 @@ model Step {
 
     index Int
     body  String
+
+    Recipe   Recipe? @relation(fields: [recipeId], references: [id])
+    recipeId String?
+}
+
+model Ingredient {
+    id String @id @default(cuid())
+
+    name     String
+    quantity Int
+    unit     String
 
     Recipe   Recipe? @relation(fields: [recipeId], references: [id])
     recipeId String?

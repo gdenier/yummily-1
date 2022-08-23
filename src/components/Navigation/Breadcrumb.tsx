@@ -1,7 +1,14 @@
 import Link from "next/link";
 import { ReactElement, ReactNode } from "react";
-import routes, { Routes } from "../../utils/data/routes";
-import { ActiveLink } from "./ActiveLink";
+import routes from "../../utils/data/routes";
+import dynamic, { DynamicOptions, Loader } from "next/dynamic";
+
+const ActiveLink = dynamic(
+  (() => import("./ActiveLink").then((mod) => mod.ActiveLink)) as
+    | DynamicOptions<any>
+    | Loader<any>,
+  { ssr: false }
+);
 
 export type BreadcrumbPart = {
   icon?: ReactNode;
@@ -49,7 +56,7 @@ export const Breadcrumb = ({ parts }: BreadcrumbProps): ReactElement => {
         >
           <ActiveLink
             href={part.href}
-            activeClassName="!text-primary dark:!text-indigo-300 rounded-lg hover:underline"
+            activeClassName="!text-primary dark:!text-indigo-300"
           >
             <a className="flex items-center text-gray-600 -px-2 dark:text-gray-200 hover:underline">
               {part.icon}
