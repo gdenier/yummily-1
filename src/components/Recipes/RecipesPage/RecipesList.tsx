@@ -10,7 +10,7 @@ export const RecipesList = ({
   recipes: Recipe[];
 }): ReactElement => {
   return (
-    <div className="grid grid-cols-3 gap-4 w-full h-full">
+    <div className="grid grid-cols-3 gap-4 w-full">
       {recipes.map((recipe, index) => (
         <Link
           key={`recipe-list-row-${index}`}
