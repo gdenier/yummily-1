@@ -18,8 +18,6 @@ export const ActiveLink = ({
 }: ActiveLinkProps): ReactElement => {
   const router = useRouter();
 
-  console.log(router, router.asPath, href, as);
-
   return (
     <Link href={href}>
       {cloneElement(children, {

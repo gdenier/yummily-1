@@ -3,7 +3,7 @@ import withRecipe from "./utils/withRecipe";
 
 export default withRecipe(({ recipe }): ReactElement => {
   return (
-    <div className="flex flex-col gap-3">
+    <section className="flex flex-col gap-3">
       <div className="flex justify-between items-center">
         <h2 className="text-3xl font-bold">{recipe.title}</h2>
         <ul className="flex gap-6 min-w-fit">
@@ -61,18 +61,6 @@ export default withRecipe(({ recipe }): ReactElement => {
         </ul>
       </div>
       <p>{recipe.description}</p>
-
-      <hr className="my-4 border-gray-200 dark:border-gray-600" />
-      <div>
-        <h3 className="text-2xl font-semibold mb-2">Ingrédients</h3>
-        <ul className="flex flex-col gap-2">
-          <li>20g Beurre</li>
-          <li>200g Salade</li>
-          <li>140g Viandes</li>
-          <li>138g sel</li>
-          <li>3kg farines</li>
-        </ul>
-      </div>
-    </div>
+    </section>
   );
 });

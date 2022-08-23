@@ -21,7 +21,10 @@ export const recipeRouter = createProtectedRouter()
   .query("getOne", {
     input: z.object({ id: z.string() }),
     async resolve({ ctx, input: { id } }) {
-      const recipe = await ctx.prisma.recipe.findUnique({ where: { id } });
+      const recipe = await ctx.prisma.recipe.findUnique({
+        where: { id },
+        include: { steps: true },
+      });
 
       if (recipe) return recipe;
 

@@ -4,7 +4,7 @@ import withRecipe from "./utils/withRecipe";
 
 export const RecipeImages = withRecipe(({ recipe }): ReactElement => {
   return (
-    <div className="grid grid-cols-2 w-full h-96 gap-3 rounded-lg overflow-hidden">
+    <section className="grid grid-cols-2 w-full h-96 gap-3 rounded-lg overflow-hidden">
       <div className="relative row-span-2 h-full w-full dark:bg-indigo-50 bg-indigo-300 flex items-center">
         {recipe.cover ? (
           <Image
@@ -23,6 +23,6 @@ export const RecipeImages = withRecipe(({ recipe }): ReactElement => {
       <div className="relative h-full w-full dark:bg-indigo-50 bg-indigo-300 flex items-center justify-center">
         <button className="btn btn-ghost">Ajouter une image</button>
       </div>
-    </div>
+    </section>
   );
 });

@@ -24,7 +24,7 @@ export const TitleLayout = ({
   children,
 }: TitleLayoutProps): ReactElement => {
   return (
-    <>
+    <div className="grid grid-rows-[auto_auto_1fr] h-full">
       <div className="flex w-full justify-between items-center mb-2">
         <h1 className="text-2xl">{title}</h1>
         <div className="flex gap-2 h-12">
@@ -45,6 +45,6 @@ export const TitleLayout = ({
       </div>
       {parts && <Breadcrumb parts={parts} />}
       <div className="mt-6">{children}</div>
-    </>
+    </div>
   );
 };

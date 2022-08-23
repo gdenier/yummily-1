@@ -1,8 +1,11 @@
-import { Recipe } from "@prisma/client";
 import { ReactElement } from "react";
-import { useRecipeStore } from "../recipeStore";
+import { RecipeWithStep, useRecipeStore } from "../recipeStore";
 
-type withRecipeChildren = ({ recipe }: { recipe: Recipe }) => ReactElement;
+type withRecipeChildren = ({
+  recipe,
+}: {
+  recipe: RecipeWithStep;
+}) => ReactElement;
 
 export default function WithRecipe(
   Component: withRecipeChildren

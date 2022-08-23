@@ -1,9 +1,13 @@
-import { Recipe } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import create from "zustand";
 
+export type RecipeWithStep = Prisma.RecipeGetPayload<{
+  include: { steps: true };
+}>;
+
 export interface RecipeState {
-  recipe: Recipe | undefined;
-  setRecipe: (recipe: Recipe) => void;
+  recipe: RecipeWithStep | undefined;
+  setRecipe: (recipe: RecipeWithStep) => void;
 }
 
 export const useRecipeStore = create<RecipeState>((set) => ({
